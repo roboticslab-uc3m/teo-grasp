@@ -1,0 +1,33 @@
+
+/**
+@brief The main, catch-all namespace for Roboticslab UC3M.
+ */
+namespace roboticslab {}
+
+/**
+ * \defgroup teo-grasp_libraries teo-grasp Libraries
+ *
+ * @brief teo-grasp libraries.
+ *
+ */
+
+/**
+ * \defgroup teo-grasp_programs teo-grasp Programs
+ *
+ * @brief teo-grasp programs.
+ */
+
+/**
+ * \defgroup teo-grasp_applications teo-grasp Applications (Collections of Programs)
+ *
+ * @brief teo-grasp applications (collections of programs).
+ */
+
+/**
+ * \defgroup teo-grasp_examples teo-grasp Examples
+ *
+ * @brief teo-grasp examples.
+ */
+
+
+
