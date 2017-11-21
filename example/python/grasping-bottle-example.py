@@ -45,14 +45,15 @@ for validgrasp in validgrasps: #random.permutation(validgrasps):
         gmodel.moveToPreshape(validgrasp)
     	print "move robot arm to grasp"
     	Tgrasp = gmodel.getGlobalGraspTransform(validgrasp,collisionfree=False)	
-    	basemanip.MoveToHandPosition(matrices=[Tgrasp])
+    	traj = basemanip.MoveToHandPosition(matrices=[Tgrasp], outputtrajobj=True)	
     	robot.WaitForController(10)
 	taskmanip = interfaces.TaskManipulation(robot)
 	taskmanip.CloseFingers()
 	robot.WaitForController(10)
-	# time.sleep(5)   # delays for 5 seconds
 	with env:
-	    robot.Grab(target)
+	    robot.Grab(target)	
+
+	raveLogInfo('traj has %d waypoints, last waypoint is: %s'%(traj.GetNumWaypoints(),repr(traj.GetWaypoint(-1))))
         raw_input('press any key to release')
         taskmanip.ReleaseFingers(target=target)
         robot.WaitForController(10)
