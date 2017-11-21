@@ -9,5 +9,5 @@ yarp_configure_external_installation(teo-grasp)
 
 ### Go through single applications
 
-#add_subdirectory(prog)
+add_subdirectory(models)
 
