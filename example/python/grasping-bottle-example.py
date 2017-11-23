@@ -25,13 +25,13 @@ gmodel = databases.grasping.GraspingModel(robot,target)
 
 if not gmodel.load():
     gmodel.autogenerate()
-    # print 'generating grasping model (one time computation)'
-    # gmodel.init(friction=5,avoidlinks=[])
-    # gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.02))
+    print 'generating grasping model (one time computation)'
+    # gmodel.init(friction=0.4,avoidlinks=[])
+    # gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.035,normalanglerange=0,directiondelta=0.40000000000000002)) # cuanto mas aumenta delta, menos rayos se generan para el grasp
     # gmodel.save()
 else: print("gmodel loaded...")
 
-validgrasps, validindicees = gmodel.computeValidGrasps(returnnum=50)
+validgrasps, validindicees = gmodel.computeValidGrasps(checkgrasper=True, checkik=True)
 print("validgrasps is ",len(validgrasps), "validindicees is ", len(validindicees))
 basemanip = interfaces.BaseManipulation(robot)
 with env:
@@ -42,10 +42,11 @@ cont = 0
 for validgrasp in validgrasps: #random.permutation(validgrasps):
     print 'trying to grasp de object (attempt: %d)' %cont
     try:
-        gmodel.moveToPreshape(validgrasp)
-    	print "move robot arm to grasp"
-    	Tgrasp = gmodel.getGlobalGraspTransform(validgrasp,collisionfree=False)	
-    	traj = basemanip.MoveToHandPosition(matrices=[Tgrasp], outputtrajobj=True)	
+	gmodel.showgrasp(validgrasp,collisionfree=False,delay=0.5) # show the grasp
+        # gmodel.moveToPreshape(validgrasp) # move to the preshape 
+    	print "moving robot arm to grasp"
+    	Tgrasp = gmodel.getGlobalGraspTransform(validgrasp,collisionfree=False)	 # get the grasp transform
+    	traj = basemanip.MoveToHandPosition(matrices=[Tgrasp], outputtrajobj=True) # move the robot to the grasp
     	robot.WaitForController(10)
 	taskmanip = interfaces.TaskManipulation(robot)
 	taskmanip.CloseFingers()
@@ -54,7 +55,7 @@ for validgrasp in validgrasps: #random.permutation(validgrasps):
 	    robot.Grab(target)	
 
 	raveLogInfo('traj has %d waypoints, last waypoint is: %s'%(traj.GetNumWaypoints(),repr(traj.GetWaypoint(-1))))
-        raw_input('press any key to release')
+        # raw_input('press any key to release')
         taskmanip.ReleaseFingers(target=target)
         robot.WaitForController(10)
         print 'initial values'
