@@ -24,11 +24,11 @@ target = env.GetKinBody('bottle')
 gmodel = databases.grasping.GraspingModel(robot,target)
 
 if not gmodel.load():
-    gmodel.autogenerate()
+    # gmodel.autogenerate()
     print 'generating grasping model (one time computation)'
-    # gmodel.init(friction=0.4,avoidlinks=[])
-    # gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.035,normalanglerange=0,directiondelta=0.40000000000000002)) # cuanto mas aumenta delta, menos rayos se generan para el grasp
-    # gmodel.save()
+    gmodel.init(friction=0.8,avoidlinks=[])
+    gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.08,normalanglerange=0,directiondelta=0.40000000000000002)) # cuanto mas aumenta delta, menos rayos se generan para el grasp
+    gmodel.save()
 else: print("gmodel loaded...")
 
 validgrasps, validindicees = gmodel.computeValidGrasps(checkgrasper=True, checkik=True)
