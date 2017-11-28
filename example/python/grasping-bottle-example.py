@@ -17,7 +17,7 @@ from numpy import *
 import numpy, time
 env=Environment()
 env.SetViewer('qtcoin')
-env.Load('/models/lab.env.xml')
+env.Load('/usr/local/share/teo-grasp/models/lab.env.xml')
 robot = env.GetRobots()[0]
 robot.SetActiveManipulator('rightArm_trunk')
 target = env.GetKinBody('bottle')
@@ -54,9 +54,9 @@ for validgrasp in validgrasps: #random.permutation(validgrasps):
 	with env:
 	    robot.Grab(target)	
 
-	raveLogInfo('traj has %d waypoints, last waypoint is: %s'%(traj.GetNumWaypoints(),repr(traj.GetWaypoint(-1))))
+	raveLogInfo('traj has %d waypoints, last waypoint is: %s'%(traj.GetNumWaypoints(),repr(traj.GetWaypoint(-1)))) #repr -> return a string containing a printable representation of an object
         # raw_input('press any key to release')
-        taskmanip.ReleaseFingers(target=target)
+        taskmanip.ReleaseFingers(target=target) # liberarDedos() -> abre la mano
         robot.WaitForController(10)
         print 'initial values'
         basemanip.MoveManipulator(initialvalues)
