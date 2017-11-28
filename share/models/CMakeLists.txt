@@ -6,4 +6,6 @@ set(appname models)
 
 file(GLOB xml ${CMAKE_CURRENT_SOURCE_DIR}/*.xml)
 
-yarp_install(FILES ${xml} DESTINATION ${GRASP_CONTEXTS_INSTALL_DIR}/usr/local/share/teo-grasp/${appname})
+yarp_configure_external_installation(teo-grasp)
+
+yarp_install(FILES ${xml} DESTINATION ${TEO-GRASP_CONTEXTS_INSTALL_DIR}/${appname})
