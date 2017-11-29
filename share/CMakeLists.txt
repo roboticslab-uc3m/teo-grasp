@@ -5,7 +5,7 @@
 find_package(YARP REQUIRED)
 list(APPEND CMAKE_MODULE_PATH ${YARP_MODULE_PATH})
 include(YarpInstallationHelpers)
-yarp_configure_external_installation(teo-grasp)
+yarp_configure_external_installation(teo-grasp) #installation path: /usr/local/share/
 
 ### Go through single applications
 
