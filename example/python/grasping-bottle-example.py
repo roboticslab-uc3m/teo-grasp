@@ -47,6 +47,12 @@ for validgrasp in validgrasps: #random.permutation(validgrasps):
     	print "moving robot arm to grasp"
     	Tgrasp = gmodel.getGlobalGraspTransform(validgrasp,collisionfree=False)	 # get the grasp transform
     	traj = basemanip.MoveToHandPosition(matrices=[Tgrasp], outputtrajobj=True) # move the robot to the grasp
+
+	raveLogInfo('traj has %d waypoints' %traj.GetNumWaypoints())
+	for waypoint in range(0, traj.GetNumWaypoints()):
+            data = traj.GetWaypoint(waypoint)
+	    print("WayPoint "+str(waypoint)+": "+repr(data))
+
     	robot.WaitForController(10)
 	taskmanip = interfaces.TaskManipulation(robot)
 	taskmanip.CloseFingers()
@@ -54,8 +60,8 @@ for validgrasp in validgrasps: #random.permutation(validgrasps):
 	with env:
 	    robot.Grab(target)	
 
-	raveLogInfo('traj has %d waypoints, last waypoint is: %s'%(traj.GetNumWaypoints(),repr(traj.GetWaypoint(-1)))) #repr -> return a string containing a printable representation of an object
-        # raw_input('press any key to release')
+	raw_input('press any key to release')
+
         taskmanip.ReleaseFingers(target=target) # liberarDedos() -> abre la mano
         robot.WaitForController(10)
         print 'initial values'
