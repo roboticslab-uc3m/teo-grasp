@@ -18,7 +18,7 @@ import numpy, time
 
 env = Environment()
 env.SetViewer('qtcoin')
-env.Load('/usr/local/share/teo-grasp/models/lab.env.xml')
+env.Load('/usr/local/share/teo-grasp/contexts/models/lab.env.xml')
 robot = env.GetRobots()[0]
 robot.SetActiveManipulator('leftArm_trunk')
 target = env.GetKinBody('bottle')
