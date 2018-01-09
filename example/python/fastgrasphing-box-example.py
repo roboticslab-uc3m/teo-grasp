@@ -21,20 +21,20 @@ env.SetViewer('qtcoin')
 env.Load('/usr/local/share/teo-grasp/contexts/models/lab.env.xml')
 robot = env.GetRobots()[0]
 robot.SetActiveManipulator('leftArm_trunk')
-target = env.GetKinBody('box')
+target = env.GetKinBody('bottle')
 gmodel = databases.grasping.GraspingModel(robot, target)
 
 if not gmodel.load():
     # gmodel.autogenerate()
     print 'generating grasping model (one time computation)'
-    # gmodel.init(friction=0.8, avoidlinks=[]) # friction=0.8
-    gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.04, normalanglerange=1))
-                                                          #directiondelta=0.40000000000000002))  # cuanto mas aumenta delta, menos rayos se generan para el grasp
+    gmodel.init(friction=0.4, avoidlinks=[])
+    gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.08, normalanglerange=0,
+                                                               directiondelta=0.40000000000000002))  # cuanto mas aumenta delta, menos rayos se generan para el grasp
     gmodel.save()
 else:
     print("gmodel loaded...")
 
-validgrasps, validindicees = gmodel.computeValidGrasps(checkgrasper=True, checkik=True, backupdist=0)
+validgrasps, validindicees = gmodel.computeValidGrasps(checkgrasper=True, checkik=True)
 print("validgrasps is ", len(validgrasps), "validindicees is ", len(validindicees))
 basemanip = interfaces.BaseManipulation(robot)
 with env:
@@ -48,7 +48,7 @@ for validgrasp in validgrasps:  # random.permutation(validgrasps):
         gmodel.showgrasp(validgrasp, collisionfree=False, delay=0.5)  # show the grasp
         # gmodel.moveToPreshape(validgrasp) # move to the preshape 
         print "moving robot arm to grasp"
-        Tgrasp = gmodel.getGlobalGraspTransform(validgrasp, collisionfree=False)  # get the grasp transform
+        Tgrasp = gmodel.getGlobalGraspTransform(validgrasp, collisionfree=True)  # get the grasp transform
         traj = basemanip.MoveToHandPosition(matrices=[Tgrasp], outputtrajobj=True)  # move the robot to the grasp
 
         raveLogInfo('traj has %d waypoints' % traj.GetNumWaypoints())
@@ -67,10 +67,9 @@ for validgrasp in validgrasps:  # random.permutation(validgrasps):
             robot.Grab(target)
 
         raw_input('press any key to release')
-        print 'doing...'
+
         taskmanip.ReleaseFingers(target=target)  # liberarDedos() -> abre la mano
-        print 'fingers released'
-        robot.WaitForController(20)
+        robot.WaitForController(10)
         print 'initial values'
         basemanip.MoveManipulator(initialvalues)
         robot.WaitForController(10)
