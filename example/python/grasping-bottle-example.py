@@ -22,7 +22,7 @@ env = Environment()
 env.SetViewer('qtcoin')
 env.Load('/usr/local/share/teo-grasp/contexts/models/lab.env.xml')
 robot = env.GetRobots()[0]
-robot.SetActiveManipulator('rightArm_trunk')
+robot.SetActiveManipulator('trunkAndRightArm')
 
 ikmodel = databases.inversekinematics.InverseKinematicsModel(robot, iktype=IkParameterizationType.Transform6D)
 if not ikmodel.load():

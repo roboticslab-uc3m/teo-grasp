@@ -20,7 +20,7 @@ env = Environment()
 env.SetViewer('qtcoin')
 env.Load('/usr/local/share/teo-grasp/contexts/models/lab.env.xml')
 robot = env.GetRobots()[0]
-robot.SetActiveManipulator('leftArm_trunk')
+robot.SetActiveManipulator('trunkAndLeftArm')
 target = env.GetKinBody('box')
 gmodel = databases.grasping.GraspingModel(robot, target)
 
