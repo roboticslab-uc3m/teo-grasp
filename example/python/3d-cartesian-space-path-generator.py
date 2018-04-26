@@ -15,10 +15,11 @@ import scipy
 from scipy import interpolate
 import numpy as np
 
+print("--------------------------------------------")
 print("3D Cartesian space path generator 1.0")
 print("--------------------------------------------")
 
-print("3D Points: ")
+print("indicate the total number of points which you want to pass through: ")
 points = input()
 
 # zeros function for three-dimensional matrix
@@ -37,12 +38,24 @@ for i in range(points):
         matrix[i][j] = input()
 
 print('----------')  
-print('resulting matrix:')
+print('Resulting matrix:')
 print(matrix)
         
 # data=np.array([[1, 2, 3], [2, 1, 2], [4, 2, 6], [6, 3, 4], [3, 7, 0], [8, 9, 4]]) # array de puntos: m > k must hold
 
 data = matrix.transpose() # we need to transpose to get the data in the right format 
+
+print('----------')  
+print('Transposed matrix:')
+print(data)
+
+print("-------------------------------------------")   
+print("Indicate the degree of the spline (1 <= k <= 5) default is 3")
+k = input()  
+
+print("-------------------------------------------")   
+print("Indicate number of interpolation points (resolution) : ")
+res = input() 
 
 
 # Now we get all the knots and info about the interpolated spline
@@ -52,10 +65,10 @@ data = matrix.transpose() # we need to transpose to get the data in the right fo
 #                           * the B-spline coefficients
 #                           * the degree of the spline
 # - u: An array of the values of the parameter.
-tck, u= interpolate.splprep(data, k=2) #Find the B-spline representation of an N-dimensional curve.
+tck, u= interpolate.splprep(data, k=k) #Find the B-spline representation of an N-dimensional curve.
 
 # resolution: evaluate the spline fits for 10 evenly spaced distance values
-res = 10
+# res = 10
 
 # An array of points at which to return the value of the smoothed spline or its derivatives. 
 x = np.linspace(0,1,res) 
@@ -72,6 +85,8 @@ import matplotlib.pyplot as plt
 fig = plt.figure()
 ax = Axes3D(fig)
 
+print("-------------------------------------------")
+print("Points resulting from the trajectory: ")
 # Print the point values 
 for i in range (len(x)):
     xi = new[0]
@@ -79,11 +94,11 @@ for i in range (len(x)):
     zi = new[2]
     print '(x, y, z) = ('+str(xi[i])+', '+str(yi[i])+', '+str(zi[i])+')'
     # Drawing the points
-    ax.plot(xi, yi, zi, 'o')
+    plt.plot(xi, yi, zi, 'o')
 
+print("-------------------------------------------")
 
-ax.plot(data[0], data[1], data[2], label='originalpoints', lw =2, c='Dodgerblue')
-ax.plot(new[0], new[1], new[2], label='fit', lw =2, c='red')
-ax.legend()
-
+plt.plot(data[0], data[1], data[2], label='original points', lw =2, c='blue')
+plt.plot(new[0], new[1], new[2], label='interpolated points', lw =2, c='red')
+plt.legend()
 plt.show()
