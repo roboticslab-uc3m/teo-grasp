@@ -16,7 +16,7 @@ from scipy import interpolate
 import numpy as np
 
 print("--------------------------------------------")
-print("3D Cartesian space path generator 1.0")
+print("Cartesian Control Path Generator space path generator 1.0")
 print("--------------------------------------------")
 
 print("indicate the total number of points which you want to pass through: ")
