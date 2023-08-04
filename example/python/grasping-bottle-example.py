@@ -1,22 +1,8 @@
-##
-# @ingroup teo_grasp_examples_py
-# \defgroup grasping-bottle-example grasping-bottle-example.py
-#
-# This is a first example of grasping with Teo using rightArm + trunk.
-#
-# <b>Legal</b> 
-#
-# Copyright: (C) 2017 Universidad Carlos III de Madrid
-#
-# Author: Raul de Santos Rico
-#
-# CopyPolicy: Released under the terms of the LGPLv2.1 or later, see license/LGPL.TXT
-
 from openravepy import *
 from numpy import *
 import numpy, time
 from openravepy.misc import InitOpenRAVELogging
-InitOpenRAVELogging() # initialized with a logger. Allow us to log IKFast information 
+InitOpenRAVELogging() # initialized with a logger. Allow us to log IKFast information
 
 env = Environment()
 env.SetViewer('qtcoin')
@@ -38,7 +24,7 @@ if not gmodel.load():
     # gmodel.autogenerate()
     print 'Generating grasping model (one time computation)'
     gmodel.init(friction=0.8, avoidlinks=[])
-    gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.08, normalanglerange=0, # delta=0.08 
+    gmodel.generate(approachrays=gmodel.computeBoxApproachRays(delta=0.08, normalanglerange=0, # delta=0.08
                                                                directiondelta=0.40000000000000002))  # cuanto mas aumenta delta, menos rayos se generan para el grasp
     gmodel.save()
 else:
@@ -56,7 +42,7 @@ for validgrasp in validgrasps:  # random.permutation(validgrasps):
     print 'trying to grasp de object (attempt: %d)' % cont
     try:
         gmodel.showgrasp(validgrasp, collisionfree=False, delay=0.5)  # show the grasp
-        # gmodel.moveToPreshape(validgrasp) # move to the preshape 
+        # gmodel.moveToPreshape(validgrasp) # move to the preshape
         print "moving robot arm to grasp"
         Tgrasp = gmodel.getGlobalGraspTransform(validgrasp, collisionfree=False)  # get the grasp transform
         traj = basemanip.MoveToHandPosition(matrices=[Tgrasp], outputtrajobj=True)  # move the robot to the grasp

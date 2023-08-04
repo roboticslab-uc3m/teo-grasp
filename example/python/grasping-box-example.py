@@ -1,17 +1,3 @@
-##
-# @ingroup teo_grasp_examples_py
-# \defgroup grasping-bottle-example grasping-bottle-example.py
-#
-# This is a first example of grasping with Teo using rightArm + trunk.
-#
-# <b>Legal</b> 
-#
-# Copyright: (C) 2017 Universidad Carlos III de Madrid
-#
-# Author: Raul de Santos Rico
-#
-# CopyPolicy: Released under the terms of the LGPLv2.1 or later, see license/LGPL.TXT
-
 from openravepy import *
 from numpy import *
 import numpy, time
@@ -46,7 +32,7 @@ for validgrasp in validgrasps:  # random.permutation(validgrasps):
     print 'trying to grasp de object (attempt: %d)' % cont
     try:
         gmodel.showgrasp(validgrasp, collisionfree=False, delay=0.5)  # show the grasp
-        # gmodel.moveToPreshape(validgrasp) # move to the preshape 
+        # gmodel.moveToPreshape(validgrasp) # move to the preshape
         print "moving robot arm to grasp"
         Tgrasp = gmodel.getGlobalGraspTransform(validgrasp, collisionfree=False)  # get the grasp transform
         traj = basemanip.MoveToHandPosition(matrices=[Tgrasp], outputtrajobj=True)  # move the robot to the grasp
